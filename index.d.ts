@@ -2,20 +2,18 @@ import React from 'react';
 import { ViewStyle, TextStyle } from 'react-native';
 /**
  * * subtitles interface
- * * @param { selectedsubtitle: { file } } url of the subtitle
+ * * @param { selectedsubtitle: { file, content } } url of the subtitle
  * * @param { currentTime } time in miliseconds from the video playback
  * * @param { containerStyle: {} } style for the container of the subtitles component
  * * @param { textStyle: {} } style for the text of the subtitle component
- * * @param { textContent } text in string
  */
 export interface SubtitlesProps {
     selectedsubtitle: {
         file: string;
+        content?: string;
     };
     currentTime: number;
     containerStyle?: ViewStyle;
-    textStyle?: TextStyle;
-    textContent?: string
 }
 /**
  * * subtitle interface

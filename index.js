@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import subtitleParser from './utils/subtitle-parser';
-const Subtitles = ({ selectedsubtitle, currentTime, containerStyle = {}, textStyle = {}, textContent = '' }) => {
+const Subtitles = ({ selectedsubtitle, currentTime, containerStyle = {}, textStyle = {} }) => {
     /**
      * * First phase parses the subtitle url to an array of objects with the subtitle interface schema
      * * method for parsing varies depending on the file extension (vtt or srt)
      */
     const [subtitles, setSubtitles] = useState([]);
     const parseSubtitles = async () => {
-        const parsedSubtitles = await subtitleParser(selectedsubtitle.file, textContent);
+        const parsedSubtitles = await subtitleParser(selectedsubtitle.file, selectedsubtitle.content);
         setSubtitles(parsedSubtitles);
     };
     useEffect(() => {
