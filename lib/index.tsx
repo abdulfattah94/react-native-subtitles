@@ -9,6 +9,7 @@ import subtitleParser from './utils/subtitle-parser'
  * * @param { currentTime } time in miliseconds from the video playback
  * * @param { containerStyle: {} } style for the container of the subtitles component
  * * @param { textStyle: {} } style for the text of the subtitle component
+ * * @param { textContent } text in string
  */
 export interface SubtitlesProps {
   selectedsubtitle: {
@@ -17,6 +18,7 @@ export interface SubtitlesProps {
   currentTime: number
   containerStyle?: ViewStyle
   textStyle?: TextStyle
+  textContent?: string
 }
 
 /**
@@ -36,6 +38,7 @@ const Subtitles: React.FC<SubtitlesProps> = ({
   currentTime,
   containerStyle = {},
   textStyle = {},
+  textContent = ''
 }): JSX.Element => {
   /**
    * * First phase parses the subtitle url to an array of objects with the subtitle interface schema
@@ -44,7 +47,7 @@ const Subtitles: React.FC<SubtitlesProps> = ({
   const [subtitles, setSubtitles] = useState<Subtitle[]>([])
 
   const parseSubtitles = async (): Promise<void> => {
-    const parsedSubtitles = await subtitleParser(selectedsubtitle.file)
+    const parsedSubtitles = await subtitleParser(selectedsubtitle.file, textContent)
     setSubtitles(parsedSubtitles)
   }
 

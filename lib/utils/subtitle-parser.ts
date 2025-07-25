@@ -5,7 +5,33 @@ const { default: srtParser2 } = require('srt-parser-2')
 import { Subtitle } from '../'
 import timeToSeconds from './time-to-seconds'
 
-const subtitleParser = async (subitleUrl: string): Promise<Subtitle[]> => {
+const subtitleParser = async (subitleUrl: string, textContent: string): Promise<Subtitle[]> => {
+  if (textContent) {
+  const result: Subtitle[] = []
+  interface srtParserSubtitle {
+      startTime: string
+      endTime: string
+      text: string
+    }
+
+    const parser: {
+      fromSrt: (data: any) => srtParserSubtitle[]
+    } = new srtParser2()
+
+    const parsedSubtitle: srtParserSubtitle[] = parser.fromSrt(textContent)
+
+    parsedSubtitle.forEach(({ startTime, endTime, text }) => {
+      result.push({
+        start: timeToSeconds(startTime.split(',')[0]),
+        end: timeToSeconds(endTime.split(',')[0]),
+        part: text,
+      })
+    })
+
+    return result
+
+
+  } else {
   const { data: subtitleData } = await axios.get(subitleUrl)
 
   const subtitleType = subitleUrl.split('.')[subitleUrl.split('.').length - 1]
@@ -57,6 +83,8 @@ const subtitleParser = async (subitleUrl: string): Promise<Subtitle[]> => {
   }
 
   return result
+  }
+  
 }
 
 export default subtitleParser
